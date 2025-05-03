@@ -1,18 +1,4 @@
-'''This is your starting script for today's Python class.
 
-This script contains the code we wrote last week
-to count the number of times each place in Gaza
-is mentioned in our corpus.
-
-Now, we want to store this count into a tsv file.
-
-I have written a function (write csv) to do this -
-but it has some mistakes in it.
-
-Please fix the mistakes and call the function
-to write the 
-
-'''
 import re
 import os
 import pandas as pd
@@ -38,47 +24,80 @@ def write_tsv(data, column_list, path):
 
 # define which folder to use:
 #Loop through the articles for data visualization
-folder = "articles"
+folder = "../articles"
 
 # define the patterns we want to search:
 
 # load the gazetteer from the tsv file:
-path = "gazetteers/geonames_gaza_selection.tsv"
+path = "../gazetteers/geonames_gaza_selection.tsv"
 with open(path, encoding="utf-8") as file:
     data = file.read()
 
 # build a dictionary of patterns from the place names in the first column:
 patterns = {}
+frequencies = {}
 rows = data.split("\n")
 for row in rows[1:]:
-    columns = row.split("\t")
-    name = columns[0]
-    patterns[name] = 0
+    cells = row.split("\t")
+    ascii_name = cells[0].strip()
+    if len(cells) > 5:
+        all_names = [ascii_name]
+        alternate_names = cells[5].strip()
 
+        if alternate_names:
+        
+            for name in alternate_names.split(","):
+                
+                all_names.append(name.strip())
+        
+        escaped_names = []
+        for name in all_names:
+            if name:
+                safe_name = re.escape(name)
+                escaped_names.append(safe_name)
+        regex_pattern = "|".join(all_names)
+        patterns[ascii_name] = regex_pattern
+        frequencies[ascii_name] = 0
+        
+        
+        
+    
 # count the number of times each pattern is found in the entire folder:
+monthly_frequencies = {}
 for filename in os.listdir(folder):
     # build the file path:
     file_path = f"{folder}/{filename}"
-    #print(f"The path to the article is: {file_path}")
+    article_date = filename[:10]
+    if article_date < "2023-10-07":
+        continue
+    month = article_date[:7]
 
     # load the article (text file) into Python:
     with open(file_path, encoding="utf-8") as file:
         text = file.read()
 
     # find all the occurences of the patterns in the text:
-    for pattern in patterns:
-        matches = re.findall(pattern, text)
+    text_lower = text.lower()
+    for name, pattern in patterns.items():
+        matches = re.findall(pattern, text_lower)
         n_matches = len(matches)
-        # add the number of times it was found to the total frequency:
-        patterns[pattern] += n_matches
-
+        if n_matches > 0:
+            frequencies[name] += n_matches
+            key = (name, month)
+            if key not in monthly_frequencies:
+                monthly_frequencies[key] = 0
+            monthly_frequencies[key] += n_matches
+            
+       
 # print the frequency of each pattern:
-for pattern in patterns:
-    count = patterns[pattern]
+for name, count in frequencies.items():
     if count >= 1:
-        print(f"found {pattern} {count} times")
+        print(f"found {name} {count} times")
 
 # call the function to write your tsv file:
-columns = ["asciiname", "frequency"]
-tsv_filename = "frequencies.tsv"
-write_tsv(patterns, columns, tsv_filename)
+monthly_rows = []
+for (name, month), freq in monthly_frequencies.items():
+    monthly_rows.append((name, month, freq))
+monthly_df = pd.DataFrame(monthly_rows, columns=["asciiname", "month", "frequency"])
+monthly_df.to_csv("monthly_frequencies.tsv", sep="\t", index=False)
+
