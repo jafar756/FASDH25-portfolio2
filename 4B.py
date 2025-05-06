@@ -8,7 +8,8 @@ import plotly.express as px
 
 # Load data
 counts = pd.read_csv("ner_counts.tsv", sep="\t")
-coords = pd.read_csv("gazetteers/NER_gazetteer.tsv", sep="\t")
+coords = pd.read_csv(r"C:/Users/DELL/Downloads/FASDH25-portfolio2/regex_counts/tsv.tsv/ner_counts.tsv")
+
 
 
 # Remove any extra spaces from the start or end of columns names
@@ -29,7 +30,7 @@ data = pd.merge(counts, coords, left_on="placename", right_on="Place")
 data["count"] = pd.to_numeric(data["count"], errors="coerce")
 data = data.dropna(subset=["count", "latitude", "longitude"])
 
-fig = px.scatter_map(
+fig = px.scatter_geo(
     data,
     lat="latitude",
     lon="longitude",
