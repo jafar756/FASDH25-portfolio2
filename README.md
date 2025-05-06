@@ -24,7 +24,6 @@ A repository for students' portfolios for mini-project 2
 - regex_script_jafar_udin_din.py
 - copy_Gaza_NER2_
 ### articles
-- 
 ## 0. portfolio task - fork and clone the portfolio folder
 ### purpose 
 - To begin our project, we first created an independent copy (a fork) of the original portfolio repository. This allowed our group to work collaboratively without affecting the main source.
@@ -160,6 +159,10 @@ No need to manually list all place names.
 Can misclassify non-locations as places.
 Depends on language models, which may require training.
 Slightly slower  than regex.
+
+## map images
+### ner_map.PNG https://github.com/jafar756/FASDH25-portfolio2/blob/main/Map%20images/ner_map.png
+### regex_map.PNG https://github.com/jafar756/FASDH25-portfolio2/blob/main/Map%20images/regex_map.png
 
 ## Self critical analysis 
 - One of the challenges we faced in this project was that the regex and gazetteer method is quite limited, what we see was that it only works well if the place names are already in the list, and even smallest changes in spelling or format can cause it to miss things. The NER method is more flexible and can recognize names on its own,  but it's not always accurate, it very often picks up names of organizations or people by mistake for example it picked up people like Netanyahu, and Hamas as a place name. The Geonames query params={"q": "Gaza Strip", "username": API_KEY} returned no results, forcing us to manually assign coordinates (31.5, 34.5). Another issue was with mapping the places, some names are used in multiple locations around the world, so getting the right coordinates wasn’t always straightforward. The familiarity with code would have improved more, because most of the code was new for me and then we came to know that we have to make another document for the ChatGpt solution, further when we start learning from chatgpt, it was giving us some higher level code, that was also confusing us, that also makes things more defficult for us. Thus it takes alot of time to know things much in depth. During map image formation, we have to make ourself familiar with U Kaleido, it requires to save PNG images, but the output was giving us frequent error, which we later know that we have to install it, moreover during working in the gitbash, we were having work collapse, where we unable to git pull or git push, which also hinder our work. 
