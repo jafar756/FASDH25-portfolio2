@@ -34,3 +34,67 @@ A repository for students' portfolios for mini-project 2
 -- Cleaned up the duplicate names and merge
 -- writen the cleaned place names and their frequency counts into a tab separated values fofile for further
 --  Displays the content of the saved TSV file, showing the list of unique , cleaned place names and how many times each appeared in january 2024 news articles. 
+
+## 4A.  Map the regex-extracted placenames
+
+### The porpose
+The goal of this task is to show how often different places are mentioned in the text using method regex.
+For regex, I made an animated map (regex_map.html, regex_map.png) that shows how place mentions change each month using data from regex_counts.tsv.
+
+### steps
+- Imported pandas and plotly.express to read data and create interactive maps. Installed kaleido to save maps as images.
+
+- - Loaded regex_counts.tsv (place names, frequency, and date) and ner_gazetteer.tsv (place names with latitude and longitude).
+
+- - Merged both files using the common place name so each place would have both frequency and coordinates to make the ouput more interactive.
+
+- - Removed extra spaces from column headers to avoid errors during merging.
+
+- - Converted the date column to datetime format so Python can understand and work with dates.
+
+- - Extracted month and year from the date for monthly animation.
+
+- - Adjusted display settings to show all columns clearly during process.
+
+- - Converted latitude and longitude columns to numbers because they might be read as text.
+
+- - Removed rows with missing coordinates (NaN) to avoid mapping errors.
+
+- - Used plotly.express.scatter_mapbox to create an animated map showing place name mentions by month.
+
+- - Used size and color of dots to show how often a place was mentioned.
+
+- - Applied a clean map style (carto-positron-nolabels) for better readability.
+
+- - Displayed the map in the browser.
+
+- - Saved it as regex_map.html (interactive) and regex_map.png (image).
+
+## 4B. Map the NER-extracted placenames
+
+### purpose:
+- The goal of this task is to show how often different places are mentioned in the text using NER.
+NER, I made a map (ner_map.html, ner_map.png) that shows which places were mentioned in January 2024, using ner_counts.tsv and NER_gazetteer.tsv.
+-- These maps help us understand which places were talked about the most and how that changed over time or stayed the same.
+### steps:
+- Import pandas and plotly.express to handle data and create the map and install keldieo to save png.
+
+- - Load ner_counts.tsv (contains place names and frequency) and ner_gazetteer.tsv (contains coordinates)
+
+- - Clean column names to prevent merge issues due to extra spaces.
+
+- - Merge both files on the common column name to combine frequencies with coordinates
+
+- - Rename columns for consistency and easier access
+
+- - Convert latitude and longitude to numeric values so they can be used for plotting
+
+- - Remove rows with missing coordinate or frequency data to avoid errors
+
+- - Create an interactive map using scatter_map to show place frequencies
+
+- - Use a simple base map style (open-street-map) that doesn't need a token
+
+- - Show the map in the browser
+
+- - Save the map as ner_map.html (interactive) and ner_map.png (image)
