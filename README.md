@@ -29,3 +29,32 @@ A repository for students' portfolios for mini-project 2
 -- goes the january files again but this time uses the normalized names to count place mentions more accurately
 -- write the cleaned place names and their frequency counts into a tab separated values fofile for further sue
 -- Displays the content of the saved TSV file, showing the list of unique , cleaned place names and how many times each appeared in january 2024 news articles. 
+
+
+
+
+
+#3. Create a Gazatteer for the NER Places
+## Purpose
+ --Taking names from ner.counts.tsv file, which has place names and get the coordinates for those places using GeoNames API and save the information AS NER_gazetteer.tsv file.
+## what the script is doing
+ --Reads the place names from 'ner_counts.tsv'
+--uses the Geonames API(http://www.geonames.org/) for coordinates.
+--prints coordinates for the place names.
+--prints NA where coordinates are not found which would be manually added later.
+--saves the output in a tsv file.
+
+--the following place had not their coordinates and were manually fixed.
+--names           lat            long
+--Dahiyeh	 33.85°	        35.51°
+Shujayea	 31.50056°	34.47000°				
+Abudaqa	         43.2374°	79.8782°		
+Mazzeh	         33.5014°       36.2468°		
+Nairoukh	31.07°	        10.51°
+Shawawra	31.69111°	35.27222			
+Beruit	        33.8938°       35.5018°
+Bahaa	        20.0123°	        41.4686°		
+Rawaa	        51.7662°	        20.2562°
+Philadelphi	39.9526°	       75.1652°
+Yir’On	        33.0772° 	        35.4543°
+ 
