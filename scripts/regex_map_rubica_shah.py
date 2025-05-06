@@ -6,7 +6,7 @@ import plotly.express as px
 
 
 regex_counts_df = pd.read_csv("regex_counts.tsv", sep="\t") #name of places with cordinates
-ner_gazetteer_df = pd.read_csv("ner_gazetteer.tsv", sep="\t") # frequancy of places
+ner_gazetteer_df = pd.read_csv("ner_gazetteer.tsv", sep="\t",encoding="latin1") # frequancy of places
 # merge the datafram with common placename
 merged_df = pd.merge(ner_gazetteer_df, regex_counts_df, left_on="asciiname", right_on="asciiname", how="inner")
 merged_df.columns= merged_df.columns.str.strip() #remove extra spaces from columns
@@ -29,7 +29,10 @@ print(merged_df)
 #create the map :
 fig = px.scatter_map(merged_df,
                      lat="latitude",
-                     lon="longitude", 
+                     lon="longitude",
+                     size="frequency",
+                     color="frequency",
+                     
                      hover_name="asciiname",
                      hover_data=["frequency","months"]
                      )
