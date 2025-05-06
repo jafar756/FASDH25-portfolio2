@@ -1,7 +1,7 @@
 import os
 import requests
 import time
-file_path = 'ner_counts.tsv'
+file_path = "../gazetteers/ner_counts.tsv"
 geonames_username = "jafar_ud_din"
 
 def get_coordinates(place, username=geonames_username, fuzzy=0, timeout=1):
@@ -17,7 +17,7 @@ def get_coordinates(place, username=geonames_username, fuzzy=0, timeout=1):
   Returns:
     dictionary: keys: latitude, longitude
   """
-  # wait a short while, so that we don't overload the server:
+  # wait to not overload the server:
   time.sleep(timeout)
   # make the API call:
   url = "http://api.geonames.org/searchJSON?"
@@ -38,22 +38,26 @@ import csv
 
 # Get the place names from the TSV file
 place_names = []
-with open("ner_counts.tsv", "r", encoding="utf-8") as file:
+with open(file_path, "r", encoding="utf-8") as file:
     reader = csv.reader(file, delimiter="\t")  # Create a CSV reader object
     next(reader)  # Skip the header row
     for row in reader:
         place_names.append(row[0])  # Append the place name (first column) to the list
 
+#checking that the gazetteer folder exists
+os.makedirs("gazetteer", exist_ok=True)
+
+
 # Get the coordinates for each place and write to a new TSV file
 filename = "ner_gazetteer.tsv"
-output_path = "gazetteer/NER_gazetteer.tsv"
-with open(filename, mode="w", encoding="utf-8") as outfile:
+output_path = "gazetteer/NER_gazetteer."
+#checking that the gazetteer folder exists
+os.makedirs("gazetteer", exist_ok=True)
+with open(output_path, mode="w", encoding="utf-8") as outfile:
     writer = csv.writer(outfile, delimiter="\t")  # Create a CSV writer object
     # Write the header row
     writer.writerow(["name", "latitude", "longitude"])
-    
-os.makedirs("gazetteer", exist_ok=True)
-     for name in place_names:
+    for name in place_names:
         coordinates = get_coordinates(name)  # Assuming you have the get_coordinates function defined
         if coordinates:
             print("=>", coordinates)
